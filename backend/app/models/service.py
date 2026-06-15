@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
 from app.core.database import Base
 
@@ -20,4 +21,10 @@ class Service(Base):
     created_at = Column(
         DateTime(timezone=True),
         server_default=func.now()
+    )
+    
+    incidents = relationship(
+        "Incident",
+        back_populates="service",
+        cascade="all, delete-orphan"
     )
