@@ -4,6 +4,9 @@ from sqlalchemy import text
 from app.core.database import Base, engine
 import app.models
 from app.api.incident_routes import router as incident_router
+from app.api.service_routes import (
+    router as service_router
+)
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -13,6 +16,8 @@ app = FastAPI(
 app.include_router(
     incident_router
 )
+
+app.include_router(service_router)
 
 Base.metadata.create_all(bind=engine)
 
