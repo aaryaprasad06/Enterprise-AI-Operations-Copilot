@@ -3,10 +3,15 @@ from app.core.config import settings
 from sqlalchemy import text
 from app.core.database import Base, engine
 import app.models
+from app.api.incident_routes import router as incident_router
 
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION
+)
+
+app.include_router(
+    incident_router
 )
 
 Base.metadata.create_all(bind=engine)
