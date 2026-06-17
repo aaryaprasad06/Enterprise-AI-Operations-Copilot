@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-
 from app.models.service import Service
 from app.schemas.service import ServiceCreate
 
@@ -26,4 +25,11 @@ class ServiceRepository:
         self.db.refresh(service)
 
         return service
+    
+    def get_by_name(self, name: str):
+        return (
+            self.db.query(Service)
+            .filter(Service.name == name)
+            .first()
+        )
     

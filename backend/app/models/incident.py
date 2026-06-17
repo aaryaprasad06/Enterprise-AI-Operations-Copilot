@@ -1,19 +1,9 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    DateTime,
-    ForeignKey,
-    Enum
-)
+from sqlalchemy import (Column, Integer, String, DateTime, ForeignKey, Enum)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.database import Base
-from app.models.incident_enums import (
-    IncidentSeverity,
-    IncidentStatus
-)
-
+from app.models.incident_enums import (IncidentSeverity, IncidentStatus)
+from app.models.incident_category import IncidentCategory
 
 class Incident(Base):
     __tablename__ = "incidents"
@@ -27,6 +17,12 @@ class Incident(Base):
     severity = Column(
         Enum(IncidentSeverity),
         nullable=False
+    )
+
+    category = Column(
+        Enum(IncidentCategory),
+        nullable=False,
+        default=IncidentCategory.UNKNOWN
     )
 
     status = Column(
@@ -76,3 +72,5 @@ class Incident(Base):
         "Service",
         back_populates="incidents"
     )
+
+    

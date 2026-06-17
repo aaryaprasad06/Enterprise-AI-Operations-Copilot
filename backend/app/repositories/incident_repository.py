@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+from sqlalchemy.sql import func
 from app.models.incident import Incident
 from app.schemas.incident import IncidentCreate
 
@@ -17,6 +17,7 @@ class IncidentRepository:
             title=incident_data.title,
             description=incident_data.description,
             severity=incident_data.severity,
+            category=incident_data.category,
             service_id=incident_data.service_id,
             fingerprint=incident_data.fingerprint
         )
@@ -41,3 +42,17 @@ class IncidentRepository:
 
     def list_incidents(self):
         return self.db.query(Incident).all()
+    
+    def get_by_fingerprint(self, fingerprint: str):
+        return (
+            self.db.query(Incident).filter(
+                Incident.fingerprint==fingerprint
+            ).first()
+        )
+    
+    def increment_occurrence(self, incident: Incident):
+        incident.occurrence_count+=1
+        incident.last_seen_at= func.now()
+        self.db.commit()
+        self.db.refresh(incident)
+        return incident

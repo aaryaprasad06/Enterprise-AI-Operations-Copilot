@@ -1,5 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
+from app.models.incident_category import IncidentCategory
+
 
 from app.models.incident_enums import (
     IncidentSeverity,
@@ -13,12 +15,14 @@ class IncidentCreate(BaseModel):
     severity: IncidentSeverity
     service_id: int
     fingerprint: str
+    category: IncidentCategory
 
 
 class IncidentResponse(BaseModel):
     id: int
     title: str
     description: str
+    category: IncidentCategory
 
     severity: IncidentSeverity
     status: IncidentStatus
