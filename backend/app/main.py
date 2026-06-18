@@ -7,6 +7,7 @@ from app.api.incident_routes import router as incident_router
 from app.api.service_routes import (
     router as service_router
 )
+from app.api.routes.ai import router as ai_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -17,6 +18,17 @@ app.include_router(
     incident_router
 )
 
+app.include_router(
+    ai_router,
+    prefix="/ai",
+    tags=["AI"]
+)
+
+from app.api.routes.analysis_routes import router as analysis_router
+
+app.include_router(
+    analysis_router
+)
 app.include_router(service_router)
 
 Base.metadata.create_all(bind=engine)
