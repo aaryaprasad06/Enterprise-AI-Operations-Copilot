@@ -26,6 +26,10 @@ from app.services.classification_service import (
     classify_incident
 )
 
+from app.ai.chroma_service import (
+    ChromaService
+)
+
 
 class KafkaConsumerService:
 
@@ -43,11 +47,11 @@ class KafkaConsumerService:
             ["incident-events"]
         )
 
+        self.chroma = ChromaService()
+
     def consume_messages(self):
 
-        print(
-            "Listening for incidents..."
-        )
+        print("Listening for incidents...")
 
         while True:
 
@@ -72,18 +76,12 @@ class KafkaConsumerService:
 
             try:
 
-                service_repo = (
-                    ServiceRepository(db)
-                )
+                service_repo = ServiceRepository(db)
 
-                incident_repo = (
-                    IncidentRepository(db)
-                )
+                incident_repo = IncidentRepository(db)
 
-                service = (
-                    service_repo.get_by_name(
-                        event["service"]
-                    )
+                service = service_repo.get_by_name(
+                    event["service"]
                 )
 
                 if not service:
@@ -95,33 +93,20 @@ class KafkaConsumerService:
 
                     continue
 
-                fingerprint = (
-                    generate_fingerprint(
-                        event["service"],
-                        event["message"]
-                    )
+                fingerprint = generate_fingerprint(
+                    event["service"],
+                    event["message"]
                 )
 
                 category = classify_incident(
                     event["message"]
                 )
 
-                incident = IncidentCreate(
-                    title=event["message"],
-                    description=event["message"],
-                    severity=IncidentSeverity(
-                        event["severity"].strip().upper()
-                    ),
-                    category= category,
-                    service_id=service.id,
-                    fingerprint=fingerprint
-                )
-
                 existing_incident = (
                     incident_repo.get_by_fingerprint(
                         fingerprint
-                        )
                     )
+                )
 
                 if existing_incident:
 
@@ -139,10 +124,37 @@ class KafkaConsumerService:
 
                 else:
 
+                    incident = IncidentCreate(
+                        title=event["message"],
+                        description=event["message"],
+                        severity=IncidentSeverity(
+                            event["severity"]
+                            .strip()
+                            .upper()
+                        ),
+                        category=category,
+                        service_id=service.id,
+                        fingerprint=fingerprint
+                    )
+
                     created = (
                         incident_repo.create_incident(
-                        incident
+                            incident
                         )
+                    )
+
+                    document = (
+                        f"{event['message']} "
+                        f"{category.value}"
+                    )
+
+                    self.chroma.add_incident(
+                        incident_id=str(created.id),
+                        document=document,
+                        metadata={
+                            "category": category.value,
+                            "severity": created.severity.value
+                        }
                     )
 
                     print(
@@ -150,5 +162,12 @@ class KafkaConsumerService:
                         f"{created.id}"
                     )
 
+            except Exception as e:
+
+                print(
+                    f"Consumer Error: {e}"
+                )
+
             finally:
+
                 db.close()
