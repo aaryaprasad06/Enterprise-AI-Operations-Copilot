@@ -31,6 +31,35 @@ app.include_router(
 )
 app.include_router(service_router)
 
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+from app.api.routes.dashboard_routes import router as dashboard_router
+app.include_router(
+    dashboard_router
+)
+
+from app.api.routes.similar_routes import (
+    router as similar_router
+)
+app.include_router(
+    similar_router
+)
+
+from app.api.routes.incident_analysis_routes import (
+    router as incident_analysis_router
+)
+app.include_router(
+    incident_analysis_router
+)
+
 Base.metadata.create_all(bind=engine)
 
 @app.get("/")

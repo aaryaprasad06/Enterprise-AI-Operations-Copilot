@@ -1,12 +1,32 @@
 import hashlib
+import re
 
 
 def generate_fingerprint(
-    service_name: str,
+    service: str,
     message: str
-) -> str:
-    raw = f"{service_name}:{message}"
+):
+
+    normalized = (
+        message.lower()
+    )
+
+    normalized = re.sub(
+        r'[^a-z0-9\s]',
+        '',
+        normalized
+    )
+
+    normalized = (
+        " ".join(
+            normalized.split()
+        )
+    )
+
+    content = (
+        f"{service.lower()}:{normalized}"
+    )
 
     return hashlib.sha256(
-        raw.encode()
+        content.encode()
     ).hexdigest()

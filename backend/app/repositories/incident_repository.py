@@ -56,3 +56,17 @@ class IncidentRepository:
         self.db.commit()
         self.db.refresh(incident)
         return incident
+    
+    def update_status(self, incident_id: int, status):
+        incident = (
+            self.get_incident_by_id(
+            incident_id
+            )
+        )
+
+        if incident:
+            incident.status = status
+            self.db.commit()
+            self.db.refresh(incident)
+
+        return incident

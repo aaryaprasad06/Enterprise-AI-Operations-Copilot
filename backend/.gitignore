@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# ChromaDB
+chroma_db/
+
+# Logs
+logs/
+
+# IDE
+.vscode/
+.idea/
