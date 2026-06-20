@@ -121,3 +121,39 @@ def update_incident_status(
         )
 
     return incident
+
+from typing import Optional
+@router.get(
+    "/search/",
+    response_model=List[IncidentResponse]
+)
+def search_incidents(
+    q: str,
+    db: Session = Depends(get_db)
+):
+    repository = IncidentRepository(
+        db
+    )
+
+    return repository.search_incidents(
+        q
+    )
+@router.get(
+    "/filter/",
+    response_model=List[IncidentResponse]
+)
+def filter_incidents(
+    severity: Optional[str] = None,
+    category: Optional[str] = None,
+    status: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
+    repository = IncidentRepository(
+        db
+    )
+
+    return repository.filter_incidents(
+        severity,
+        category,
+        status
+    )

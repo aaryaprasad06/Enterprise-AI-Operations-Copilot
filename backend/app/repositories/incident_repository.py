@@ -70,3 +70,37 @@ class IncidentRepository:
             self.db.refresh(incident)
 
         return incident
+    
+    def search_incidents(self, query: str):
+        return (
+            self.db.query(Incident)
+            .filter(
+                Incident.title.ilike(
+                    f"%{query}%"
+                )
+            )
+        .all()
+        )
+
+
+    def filter_incidents(self, severity=None, category=None, status=None):
+        query = self.db.query(
+            Incident
+        )
+
+        if severity:
+            query = query.filter(
+                Incident.severity == severity
+            )
+
+        if category:
+            query = query.filter(
+                Incident.category == category
+            )
+
+        if status:
+            query = query.filter(
+                Incident.status == status
+            )
+
+        return query.all()

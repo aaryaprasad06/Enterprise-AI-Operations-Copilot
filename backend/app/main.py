@@ -92,3 +92,18 @@ async def database_health():
             "database": "failed",
             "error": str(e)
         }
+    
+from app.api.routes.copilot_routes import (
+    router as copilot_router
+)
+app.include_router(
+    copilot_router
+)
+
+from app.api.routes.analytics_routes import (
+    router as analytics_router
+)
+
+app.include_router(
+    analytics_router
+)
