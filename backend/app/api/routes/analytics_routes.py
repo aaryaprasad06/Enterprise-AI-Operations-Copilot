@@ -47,3 +47,74 @@ def category_distribution(
         )
 
     return result
+
+@router.get("/status")
+def status_distribution(
+    db: Session = Depends(get_db)
+):
+    incidents = db.query(
+        Incident
+    ).all()
+
+    result = {}
+
+    for incident in incidents:
+
+        status = (
+            incident.status.value
+        )
+
+        result[status] = (
+            result.get(status, 0) + 1
+        )
+
+    return result
+
+@router.get("/services")
+def service_analytics(
+    db: Session = Depends(get_db)
+):
+    incidents = db.query(
+        Incident
+    ).all()
+
+    result = {}
+
+    for incident in incidents:
+
+        service_name = (
+            incident.service.name
+        )
+
+        result[service_name] = (
+            result.get(service_name, 0)
+            + incident.occurrence_count
+        )
+
+    return result
+
+@router.get("/trends")
+def incident_trends(
+    db: Session = Depends(get_db)
+):
+
+    incidents = db.query(
+        Incident
+    ).all()
+
+    trend = {}
+
+    for incident in incidents:
+
+        date = (
+            incident.created_at
+            .date()
+            .isoformat()
+        )
+
+        trend[date] = (
+            trend.get(date, 0)
+            + incident.occurrence_count
+        )
+
+    return trend

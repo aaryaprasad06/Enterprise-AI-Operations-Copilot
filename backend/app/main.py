@@ -107,3 +107,11 @@ from app.api.routes.analytics_routes import (
 app.include_router(
     analytics_router
 )
+
+from app.api.routes.executive_routes import (
+    router as executive_router
+)
+
+app.include_router(
+    executive_router
+)
