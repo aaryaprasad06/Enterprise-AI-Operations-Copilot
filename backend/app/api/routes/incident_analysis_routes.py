@@ -9,9 +9,8 @@ from app.repositories.incident_repository import (
     IncidentRepository
 )
 
-from app.ai.rca_service import RCAService
-from app.ai.resolution_service import (
-    ResolutionService
+from app.services.ai_pipeline_service import (
+    AIPipelineService
 )
 
 router = APIRouter(
@@ -38,16 +37,15 @@ def analyze_incident(
             detail="Incident not found"
         )
 
-    resolution = ResolutionService()
+    pipeline = AIPipelineService()
 
-    analysis = resolution.analyze_incident(
+    analysis = pipeline.process_incident(
         incident.description
     )
 
     return {
         "incident_id": incident.id,
         "title": incident.title,
-        "category": incident.category,
         "analysis": analysis
     }
 
