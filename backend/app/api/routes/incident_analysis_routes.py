@@ -152,3 +152,37 @@ def incident_report(
         "similar_incidents": similar_incidents,
         "executive_summary": executive_summary
     }
+
+@router.get(
+    "/{incident_id}/related"
+)
+def related_incidents(
+    incident_id: int,
+    db: Session = Depends(get_db)
+):
+
+    repository = IncidentRepository(db)
+
+    incident = repository.get_incident_by_id(
+        incident_id
+    )
+
+    if not incident:
+        raise HTTPException(
+            status_code=404,
+            detail="Incident not found"
+        )
+
+    rca_service = RCAService()
+
+    similar = (
+        rca_service.find_similar_incidents(
+            incident.description
+        )
+    )
+
+    return {
+        "incident_id": incident.id,
+        "title": incident.title,
+        "related_incidents": similar
+    }
