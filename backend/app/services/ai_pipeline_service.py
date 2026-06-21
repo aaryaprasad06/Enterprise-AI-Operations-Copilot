@@ -1,41 +1,48 @@
-from app.services.classification_service import classify_incident
-from app.ai.chroma_service import search_similar_incidents
-from app.ai.rca_service import generate_rca
-from app.ai.resolution_service import generate_resolution
+from app.services.classification_service import (
+    classify_incident
+)
+
+from app.ai.resolution_service import (
+    ResolutionService
+)
 
 
-def process_incident(incident: dict):
+class AIPipelineService:
 
-    result = {}
+    def __init__(self):
+        self.resolution_service = (
+            ResolutionService()
+        )
 
-    # Step 1: Classification
-    category = classify_incident(
-        incident["title"]
-    )
+    def process_incident(
+        self,
+        incident_description: str
+    ):
 
-    result["category"] = category
+        # Step 1: Classification
+        category = classify_incident(
+            incident_description
+        )
 
-    # Step 2: Similar Incident Search
-    similar_incidents = search_similar_incidents(
-        incident["description"]
-    )
+        # Step 2: RCA + Resolution Analysis
+        analysis = (
+            self.resolution_service
+            .analyze_incident(
+                incident_description
+            )
+        )
 
-    result["similar_incidents"] = similar_incidents
-
-    # Step 3: RCA
-    rca = generate_rca(
-        incident,
-        similar_incidents
-    )
-
-    result["root_cause"] = rca
-
-    # Step 4: Resolution
-    resolution = generate_resolution(
-        incident,
-        rca
-    )
-
-    result["resolution"] = resolution
-
-    return result
+        return {
+            "category": category.value,
+            "root_cause": analysis.get(
+                "root_cause"
+            ),
+            "recommended_actions": analysis.get(
+                "recommended_actions",
+                []
+            ),
+            "confidence": analysis.get(
+                "confidence",
+                0
+            )
+        }
