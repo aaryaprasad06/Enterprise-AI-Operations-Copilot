@@ -1,185 +1,178 @@
 # 🚀 Enterprise AI Operations Copilot
 
-> AI-Powered Incident Management, Root Cause Analysis, and Operations Intelligence Platform
-
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
-![React](https://img.shields.io/badge/React-Frontend-blue)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
-![Groq](https://img.shields.io/badge/Groq-LLM-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+An AI-powered Enterprise Incident Management Platform designed to help DevOps, SRE, Platform Engineering, and Operations teams detect, analyze, classify, deduplicate, and resolve incidents faster using Generative AI, Vector Search, and Real-Time Event Streaming.
 
 ---
 
-## 🌟 Overview
+## 🎯 Problem Statement
 
-Enterprise AI Operations Copilot is an AI-powered AIOps platform designed to help operations teams manage incidents, analyze root causes, monitor system health, and generate executive insights.
+Modern enterprises generate thousands of operational incidents daily.
 
-The platform combines traditional incident management workflows with Large Language Models (LLMs) to accelerate troubleshooting and improve operational efficiency.
+Operations teams often struggle with:
 
----
-
-# 🎯 Features
-
-## 📌 Incident Management
-
-* Create incidents
-* Search incidents
-* Filter incidents
-* Track status
-* Incident lifecycle management
-* Incident occurrence tracking
-
----
-
-## 🤖 AI Root Cause Analysis
-
-Analyze incidents automatically using AI.
-
-Outputs:
-
-✅ Root Cause
-
-✅ Confidence Score
-
-✅ Recommended Actions
-
-Example:
-
-```text
-Incident:
-Database Connection Timeout
-
-AI Output:
-Root Cause:
-Database connection pool exhaustion
-
-Confidence:
-92%
-
-Recommended Actions:
-- Increase pool size
-- Optimize slow queries
-- Restart affected services
-```
-
----
-
-## 💬 AI Operations Copilot
-
-Ask operational questions in natural language.
-
-Examples:
-
-```text
-Why are users experiencing login failures?
-
-What could cause repeated database timeouts?
-
-How should I investigate API latency spikes?
-```
-
-The AI Copilot provides:
-
-* Root cause hypotheses
-* Resolution guidance
-* Troubleshooting recommendations
-
----
-
-## 📊 Dashboard Analytics
-
-Monitor key operational metrics.
-
-### KPI Cards
-
-* Total Incidents
-* Critical Incidents
-* MTTR
-* Platform Health Score
-
-### Visual Analytics
-
-📈 Incident Trends
-
-🍩 Severity Distribution
-
-📋 Recent Incidents
-
-📊 Service Analytics
-
----
-
-## 📈 Executive Summary Generator
-
-Generate leadership-focused summaries automatically.
-
-Includes:
-
-* Overall Platform Health
-* Risk Assessment
-* Critical Findings
-* Strategic Recommendations
-
-Perfect for:
-
-* CIO Reviews
-* Engineering Leadership
-* Weekly Operations Reports
-
----
-
-## 🔍 Similar Incident Detection
-
-Uses fingerprint-based matching to identify:
-
+* Alert fatigue
 * Duplicate incidents
-* Recurring issues
-* Related failures
+* Slow root cause identification
+* Knowledge silos
+* Manual incident triage
+* Delayed executive visibility
+
+Enterprise AI Operations Copilot solves these challenges by combining AI, semantic search, and real-time analytics into a unified platform.
+
+---
+
+## ✨ Key Features
+
+### 🤖 AI-Powered Incident Classification
+
+Automatically categorizes incidents into:
+
+* Database
+* Infrastructure
+* Application
+* Network
+* Security
+
+using intelligent classification pipelines.
+
+---
+
+### 🔍 Root Cause Analysis (RCA)
+
+Analyze incident descriptions and generate:
+
+* Probable root causes
+* Confidence scores
+* Resolution recommendations
+
+powered by Large Language Models.
+
+---
+
+### 🧠 AI Operations Copilot
+
+Ask questions in natural language:
+
+* Why did payment-service fail?
+* What caused this outage?
+* How can we prevent similar incidents?
+* Which service is most affected?
+
+The Copilot provides actionable operational insights instantly.
+
+---
+
+### 🔄 Incident Deduplication Engine
+
+Uses fingerprinting techniques to identify duplicate incidents.
 
 Benefits:
 
-✅ Faster resolution
-
-✅ Reduced alert fatigue
-
-✅ Better knowledge reuse
+* Reduced alert noise
+* Cleaner incident records
+* Better operational efficiency
 
 ---
 
-# 🏗️ Architecture
+### 📚 Similar Incident Search
 
-```text
-React Frontend
-       │
-       ▼
-FastAPI Backend
-       │
- ┌─────┼─────────┐
- ▼     ▼         ▼
+Uses ChromaDB vector search to retrieve historical incidents with similar patterns.
 
-PostgreSQL   AI Layer   Analytics
- Database      Groq      Engine
+Enables:
 
-       │
-       ▼
-
-Operations Dashboard
-```
+* Faster troubleshooting
+* Knowledge reuse
+* Reduced Mean Time To Resolution (MTTR)
 
 ---
 
-# 🛠️ Technology Stack
+### 📊 Executive Dashboard
 
-## Backend
+Real-time analytics including:
+
+* Incident Trends
+* Severity Distribution
+* Platform Health Score
+* MTTR
+* Service Impact Analysis
+* Status Breakdown
+
+Designed for Engineering Managers, SRE Leads, and CIOs.
+
+---
+
+### 📈 Executive AI Summaries
+
+Generate leadership-ready operational reports automatically.
+
+Provides:
+
+* Overall platform health
+* Risk assessment
+* Critical incidents
+* Recommended leadership actions
+
+---
+
+### ⚡ Real-Time Event Streaming
+
+Powered by Apache Kafka.
+
+Features:
+
+* Incident Event Producer
+* Incident Event Consumer
+* Real-Time Processing Pipeline
+
+Supports scalable enterprise workloads.
+
+---
+
+## 🏗️ Architecture
+
+Incident Creation
+↓
+Kafka Event Stream
+↓
+Deduplication Engine
+↓
+AI Classification
+↓
+Vector Embedding Storage (ChromaDB)
+↓
+RCA Engine
+↓
+Executive Analytics
+↓
+AI Copilot
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
 
 * FastAPI
+* Python
 * SQLAlchemy
 * PostgreSQL
 * Pydantic
-* Uvicorn
 
-## Frontend
+### Artificial Intelligence
+
+* Groq API
+* Llama 3
+* ChromaDB
+* Vector Search
+* Semantic Retrieval
+* Root Cause Analysis
+
+### Streaming
+
+* Apache Kafka
+* Confluent Kafka
+
+### Frontend
 
 * React
 * Vite
@@ -187,163 +180,48 @@ Operations Dashboard
 * Recharts
 * Lucide React
 
-## AI
+### Database
 
-* Groq API
-* Llama 3.3 70B
-
----
-
-# 📂 Project Structure
-
-```text
-backend/
-│
-├── app/
-│   ├── routers/
-│   ├── models/
-│   ├── repositories/
-│   ├── services/
-│   ├── ai/
-│   └── core/
-│
-└── main.py
-
-frontend/
-│
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── services/
-│   └── layouts/
-│
-└── App.jsx
-```
+* PostgreSQL
+* ChromaDB
 
 ---
 
-# 🚀 Installation
+## 📊 Business Impact
 
-## Backend
+✅ Faster Incident Resolution
 
-```bash
-git clone <repo-url>
+✅ Reduced Alert Fatigue
 
-cd backend
+✅ Improved Operational Visibility
 
-pip install -r requirements.txt
+✅ AI-Assisted Decision Making
 
-uvicorn app.main:app --reload
-```
+✅ Executive-Level Reporting
 
-Backend:
+✅ Lower MTTR
 
-```text
-http://localhost:8000
-```
-
-Swagger Docs:
-
-```text
-http://localhost:8000/docs
-```
+✅ Knowledge Retention Through Semantic Search
 
 ---
 
-## Frontend
+## 🔮 Future Enhancements
 
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
-Frontend:
-
-```text
-http://localhost:5173
-```
+* Kubernetes Monitoring
+* Prometheus Integration
+* Grafana Integration
+* OpenTelemetry Support
+* Predictive Incident Detection
+* Multi-Agent AI Workflows
+* Automated Remediation
+* Slack / Microsoft Teams Integration
 
 ---
 
-# 📸 Screenshots
+## 👨‍💻 Author
 
-## Dashboard
+Aarya Prasad
 
-Add dashboard screenshot here
+Computer Science & AI Engineering Student
 
----
-
-## AI Copilot
-
-Add copilot screenshot here
-
----
-
-## Incident Management
-
-Add incidents screenshot here
-
----
-
-## Executive Summary
-
-Add executive summary screenshot here
-
----
-
-# 🔮 Future Improvements
-
-* Kafka Event Streaming
-* Real-Time Incident Monitoring
-* Vector Database Integration
-* Retrieval-Augmented Generation (RAG)
-* Predictive Incident Forecasting
-* AI Agent Workflows
-* Multi-Tenant Support
-* Kubernetes Deployment
-* CI/CD Integration
-
----
-
-# 📚 Learning Outcomes
-
-Through this project I gained experience in:
-
-✅ Full-Stack Development
-
-✅ FastAPI Architecture
-
-✅ React Dashboard Development
-
-✅ Database Design
-
-✅ LLM Integration
-
-✅ AI-Powered Automation
-
-✅ Data Visualization
-
-✅ Enterprise Software Engineering
-
----
-
-# 👨‍💻 Author
-
-### Aarya Prasad
-
-Computer Science & AI Student
-
-Passionate about:
-
-* Artificial Intelligence
-* Machine Learning
-* Full Stack Development
-* AIOps
-* Enterprise Software
-
----
-
-⭐ If you found this project interesting, consider giving it a star!
+Building AI systems for enterprise operations, automation, and intelligent decision making.
